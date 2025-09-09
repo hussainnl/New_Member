@@ -4,12 +4,12 @@ import logging
 from fetch_sheet_data import Fetch_Sheet_Data
 from dotenv import load_dotenv
 
-sheet_data = Fetch_Sheet_Data()
+
 load_dotenv()
 DB = os.getenv('DB')
 con = sqlite3.connect(DB)
 cur = con.cursor()
-
+sheet_data = Fetch_Sheet_Data()
 class Member_Info:
 
     def __init__(self):
@@ -59,8 +59,8 @@ class Member_Info:
                 member_data = self.sheet_data.get_values("1Xrve4ABSNuJfVpgZMrMVyyUzkoTgFQhTZHm2omuVzK4", f"A{self.value}:J{self.value}")['values']
                 self.new_member(member_data)
                 self.value += 1
-        except:
-            print("done")
+        except Exception as error:
+            print("done",error)
 
 
 
@@ -94,5 +94,7 @@ class Member_State:
     #         """, (id_member, name, score, is_passed))
     #         self.con.commit()
     def member_score(self):
-         res = self.cur.execute("SELECT sheet_id FROM member_info")
+        res = self.cur.execute("SELECT name,email FROM member_info WHERE member_id = ?",(1,)).fetchall()
+        return res
+
 
