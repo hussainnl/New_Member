@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import random
@@ -11,18 +10,23 @@ def check_pass_state(scheduler,join_time, member_id, name,email):
 
     
     """
-    join_time = datetime.strptime(join_time, "%Y-%m-%d")
+    
     
     func = send_pass_email
-    run_time =  datetime.now() + timedelta(days = 6)
+    from data_base_manager import Member_State
+    current_reminder_time = Member_State().get_current_reminder_time()
+    if current_reminder_time == 'not has':
+        join_time = datetime.strptime(join_time, "%Y-%m-%d")
+        run_time =  join_time + timedelta(days = 6)
+    else:
+        run_time = datetime.strptime(current_reminder_time, "%Y-%m-%d")
+
     run_time = run_time.replace(
     hour=10,
     minute=random.randint(0, 59),
     second=random.randint(0, 59),
     microsecond=0 )
 
-    
-    
     # Add Job
     scheduler.add_job(
         func,
@@ -61,4 +65,3 @@ def send_pass_email(scheduler, member_id, name,email):
     )
     print(f"Job added for member {member_id}, scheduled at {run_time}")
     return run_time
-
