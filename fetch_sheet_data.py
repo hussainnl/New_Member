@@ -1,6 +1,7 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from config import Configuration
+import logging
 class Fetch_Sheet_Data :
     
     def __init__(self):
@@ -26,10 +27,10 @@ class Fetch_Sheet_Data :
                 .execute()
             )
             rows = result.get("values", [])
-            print(f"{len(rows)} rows retrieved")
+            logging.info(f"{len(rows)} rows retrieved")
             return result
         except HttpError as error:
-            print(f"An error occurred: {error}")
+            logging.info(f"An error occurred: {error}")
             return error
 
 
