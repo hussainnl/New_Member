@@ -1,13 +1,38 @@
-from data_base_manager import Member_Info ,Member_State
+from apscheduler.schedulers.background import BackgroundScheduler
+from data_base_manager import Member_Info ,Member_State 
 from prepare_member_sheet import Prepare_Member_Sheet
-import os
-from dotenv import load_dotenv
+import time
+from member_reminder import check_pass_state
+import logging
 
 
-load_dotenv()
-ORIGINAL_FILE_ID = os.getenv('ORIGINAL_FILE_ID')
-Member_Info().add_new_member()
-name , email = Member_State().member_score()[0]
+logging.basicConfig(
+    level=logging.DEBUG, 
+    format="%(asctime)s - %(levelname)s - %(message)s",  
+    datefmt="%Y-%m-%d %H:%M:%S"  
+)
 
-new_id, new_link = Prepare_Member_Sheet().copy_and_share_sheet(ORIGINAL_FILE_ID,name,email)
-Prepare_Member_Sheet().send_custom_email(email,name,name,new_link)
+
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+while True:
+
+    Member_Info().make_new_table()
+    Member_Info().check_new_members()
+    Member_State().make_new_table()
+    Member_State().fetch_member_data()
+    members_ids = Member_State().get_members_ids()
+    for member_id in members_ids:
+        try:
+            email,name,new_link = Member_Info().get_member_sheet_id(member_id)
+            Prepare_Member_Sheet().send_member_sheet(email,name,new_link)      
+            join_time = Member_Info().get_member_join_time(member_id)
+            reminder_time = check_pass_state(scheduler,join_time, member_id, name,email)
+            Member_State.update_reminder_time(reminder_time,member_id)
+            logging.info(f"Sending successful to {name}")
+        except:
+            logging.info(f"Sending failed to {name}")
+
+    time.sleep(3600)
+    
