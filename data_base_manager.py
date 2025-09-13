@@ -27,7 +27,7 @@ class Member_Info:
     def make_new_table(self):
         self.cur.execute("CREATE TABLE IF NOT EXISTS  member_info(member_id, name, hours, role, email ,join_time, sheet_id)")
         logging.info('Member_Info().make_new_table() executed')
-        
+        print('done')
         self.con.commit()
 
         
@@ -73,7 +73,7 @@ class Member_Info:
             return email,name,sheet_link
         else:
             currint_sheet_link = 'https://docs.google.com/spreadsheets/d/'+ currint_sheet_id +'/edit?usp=drivesdk'
-            logging.info('currint_sheet_link',currint_sheet_link)
+            logging.info(f"currint_sheet_link,currint_sheet_link")
             return email,name,currint_sheet_link
 
             
@@ -137,7 +137,9 @@ class Member_State:
         res = self.cur.execute("SELECT member_id,name FROM member_info")
         members =res.fetchall()
         members_ids = self.cur.execute("SELECT member_id,name FROM member_state").fetchall()
-        
+        members_id_state = []
+        for id in range(len(members_ids)):
+            members_id_state.append(members_ids[id][0])
         for member in range(len(members)):
             member_id=members[member][0]
             name= members[member][1]
@@ -146,20 +148,25 @@ class Member_State:
             is_sheet_sent = 0
             is_passed = 0
             
-            if  members_ids == []:
-                self.cur.execute("""
-                INSERT OR IGNORE INTO member_state (member_id, name, score, reminder_time, is_sheet_sent, is_passed)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """, (member_id, name, score, reminder_time, is_sheet_sent, is_passed))
-                self.con.commit()
-            elif member_id not in members_ids[member] :
-                self.cur.execute("""
-                INSERT OR IGNORE INTO member_state (member_id, name, score, reminder_time, is_sheet_sent, is_passed)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """, (member_id, name, score, reminder_time, is_sheet_sent, is_passed))
-                self.con.commit()
-            else:
+            try:
+                if  members_ids == []:
+                    self.cur.execute("""
+                    INSERT OR IGNORE INTO member_state (member_id, name, score, reminder_time, is_sheet_sent, is_passed)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """, (member_id, name, score, reminder_time, is_sheet_sent, is_passed))
+                    self.con.commit()
+                elif member_id not in members_id_state :
+                    self.cur.execute("""
+                    INSERT OR IGNORE INTO member_state (member_id, name, score, reminder_time, is_sheet_sent, is_passed)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """, (member_id, name, score, reminder_time, is_sheet_sent, is_passed))
+                    self.con.commit()
+                else:
+                    continue
+            except Exception as e:
+                logging.warning(f"{e},{name}")
                 continue
+
         
     def required_data(self,member_id):
 
