@@ -1,7 +1,7 @@
-import asyncio
 import os
 from telegram.ext import ApplicationBuilder
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -21,6 +21,5 @@ async def get_invite_link(chat_id: int):
     )
 
     await app.stop()
+    logging.info("get_invite_link is done")
     return invite_link.invite_link
-
-
