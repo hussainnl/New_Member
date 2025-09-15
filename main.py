@@ -16,6 +16,20 @@ logging.basicConfig(
 scheduler = BackgroundScheduler()
 scheduler.start()
 
+
+len_of_taple = Member_Info().make_member_id()
+member_ids = []
+for x in range(1,len_of_taple+1):
+    member_ids.append(x)
+member_ids
+print(member_ids)
+for member_id in member_ids:
+    print(member_id)
+    email,name,new_link = Member_Info().get_member_sheet_id(member_id)
+    join_time = Member_Info().get_member_join_time(member_id)
+    reminder_time = check_pass_state(scheduler,join_time, member_id, name,email)
+    Member_State().update_reminder_time(reminder_time,member_id)
+
 while True:
 
     Member_Info().make_new_table()
@@ -29,10 +43,10 @@ while True:
             Prepare_Member_Sheet().send_member_sheet(email,name,new_link)      
             join_time = Member_Info().get_member_join_time(member_id)
             reminder_time = check_pass_state(scheduler,join_time, member_id, name,email)
-            Member_State.update_reminder_time(reminder_time,member_id)
+            Member_State().update_reminder_time(reminder_time,member_id)
             logging.info(f"Sending successful to {name}")
         except:
             logging.info(f"Sending failed to {name}")
-
+    logging.info("Latest updates checked")
     time.sleep(3600)
     

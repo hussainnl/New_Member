@@ -264,6 +264,8 @@ class Member_State:
             member_id = ?
             """, (new_reminder_time,member_id))
             self.con.commit()
+            logging.info("update_reminder_time is done")
+            
 
     def get_current_reminder_time(self,member_id):
         

@@ -14,12 +14,12 @@ def check_pass_state(scheduler,join_time, member_id, name,email):
     
     func = send_pass_email
     from data_base_manager import Member_State
-    current_reminder_time = Member_State().get_current_reminder_time()
+    current_reminder_time = Member_State().get_current_reminder_time(member_id)
     if current_reminder_time == 'not has':
-        join_time = datetime.strptime(join_time, "%Y-%m-%d")
+        join_time = datetime.strptime(join_time, "%Y/%m/%d")
         run_time =  join_time + timedelta(days = 6)
     else:
-        run_time = datetime.strptime(current_reminder_time, "%Y-%m-%d")
+        run_time = datetime.strptime(current_reminder_time, "%Y/%m/%d")
 
     run_time = run_time.replace(
     hour=10,
