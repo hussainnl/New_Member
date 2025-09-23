@@ -12,7 +12,7 @@ import logging
 
 load_dotenv()
 SUPPORT_ASKING_LINK = os.getenv('SUPPORT_ASKING_LINK')
-SHEET_VEDEO = os.getenv('SHEET_VEDEO')
+TASKS_LINK = os.getenv('TASK_LINK')
 APPLY_AGAIN_LINK = os.getenv('APPLY_AGAIN_LINK')
 GROUP_ID = os.getenv('GROUP_ID')
 
@@ -22,7 +22,7 @@ class Prepare_Member_Sheet :
     def __init__(self):
         self.credentials = Configuration().authenticate_google()
         self.support_asking_link = SUPPORT_ASKING_LINK
-        self.sheet_video = SHEET_VEDEO
+        self.tasks_link = TASKS_LINK
         self.apply_again_link = APPLY_AGAIN_LINK
         
     def copy_and_share_sheet(self,origin_file_id, new_name, email):
@@ -62,10 +62,10 @@ class Prepare_Member_Sheet :
             logging.info(f'حدث خطأ في Google Drive API: {error}')
             return None, None
         
-    def htnl_member_sheet(self,name,file_name,file_link,support_asking_link,sheet_video):
+    def htnl_member_sheet(self,name,file_name,file_link,support_asking_link,tasks_link):
         
         final_html_body = EMAIL_HTML_BODY.format(name =name ,file_name=file_name, file_link= file_link,
-                                                 support_asking_link = support_asking_link ,sheet_video = sheet_video)
+                                                 support_asking_link = support_asking_link ,tasks_link = tasks_link)
         return final_html_body
     def send_member_sheet(self, to_email, name,file_link):
         """
@@ -73,13 +73,13 @@ class Prepare_Member_Sheet :
         """
         try:
             support_asking_link = self.support_asking_link
-            sheet_video = self.sheet_video
+            tasks_link = self.tasks_link
             subject = f"مرحباً بك يا{name} في مشروع 'نواة'"
             file_name = f"نسخة تقيم {name}"
             gmail_service = build('gmail', 'v1', credentials=self.credentials)
             logging.info(f"جاري إرسال بريد إلكتروني مخصص إلى: {to_email}...")
         
-            message = MIMEText(self.htnl_member_sheet(name, file_name, file_link, support_asking_link, sheet_video), 'html')
+            message = MIMEText(self.htnl_member_sheet(name, file_name, file_link, support_asking_link, tasks_link), 'html')
             message['to'] = to_email
             message['subject'] = subject
         
@@ -129,7 +129,5 @@ class Prepare_Member_Sheet :
             logging.info("تم إرسال البريد الإلكتروني بنجاح!")
         except HttpError as error:
             logging.info(f'حدث خطأ في Gmail API: {error}')
-
-
 
 

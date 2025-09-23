@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import random
-
+import logging
 
 
 
@@ -20,6 +20,7 @@ def check_pass_state(scheduler,join_time, member_id, name,email):
         run_time =  join_time + timedelta(days = 6)
     else:
         run_time = datetime.strptime(current_reminder_time, "%Y/%m/%d")
+        logging.info("current_reminder_time is taken")
 
     run_time = run_time.replace(
     hour=10,
@@ -37,7 +38,7 @@ def check_pass_state(scheduler,join_time, member_id, name,email):
         replace_existing=True,    # لو العضو ليه Job قديمة تتبدل
         timezone=ZoneInfo("Africa/Cairo")
     )
-    print(f"Job added for member {member_id}, scheduled at {run_time}")
+    logging.info(f"Job added for member {member_id}, scheduled at {run_time}")
     return run_time
 
 def send_pass_email(scheduler, member_id, name,email):
@@ -63,5 +64,5 @@ def send_pass_email(scheduler, member_id, name,email):
         replace_existing=True,    # لو العضو ليه Job قديمة تتبدل
         timezone=ZoneInfo("Africa/Cairo")
     )
-    print(f"Job added for member {member_id}, scheduled at {run_time}")
+    logging.info(f"Job added for member {member_id}, scheduled at {run_time}")
     return run_time

@@ -212,7 +212,7 @@ class Member_State:
     def update_pass_state(self,member_id):
 
         member_score = self.get_score(member_id)
-        logging.info(member_score,"member_score")
+        logging.info(f"{member_score},'member_score'")
         required_score = 51.00
         if member_score >= required_score :
             self.cur.execute("""

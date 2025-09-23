@@ -22,7 +22,7 @@ EMAIL_HTML_BODY = """
     }}
     .header {{
       text-align: center;
-      border-bottom: 3px solid #f7931e; /* برتقالي */
+      border-bottom: 3px solid #f7931e;
       padding-bottom: 15px;
       margin-bottom: 20px;
     }}
@@ -30,7 +30,7 @@ EMAIL_HTML_BODY = """
       width: 80px;
     }}
     .header h1 {{
-      color: #1d4e89; /* الأزرق */
+      color: #1d4e89;
       font-size: 22px;
       margin-top: 10px;
     }}
@@ -42,7 +42,7 @@ EMAIL_HTML_BODY = """
       display: inline-block;
       margin: 10px 0;
       padding: 12px 20px;
-      background: #1d4e89; /* الأزرق */
+      background: #1d4e89;
       color: #ffffff;
       text-decoration: none;
       border-radius: 8px;
@@ -62,37 +62,35 @@ EMAIL_HTML_BODY = """
 <body>
   <div class="container">
     <div class="header">
-      <!-- ضع رابط اللوجو هنا -->
       <img src="https://avatars.githubusercontent.com/u/230738679?s=400&u=64d3db5100ec6d5bef5a0457a2e13bc3c8242dd3&v=4" alt="Nawaa Logo">
       <h1>فريق نواة</h1>
     </div>
 
-    <p dir="rtl" style="text-align:right;">مرحباً {name},</p>
+    <p dir="rtl" style="text-align:right;">أهلاً {name},</p>
     <p dir="rtl" style="text-align:right;">
-        قبل ما نبدأ التقييم مبني على خطة مدتها <strong>6 أيام</strong>.<br><br>
-        خلال الـ 6 أيام دول:<br>
-        • كل يوم هتسجّل الساعات اللي اشتغلتها على نفسك.<br>
-        • في آخر اليوم، هتقيّم نفسك بناءً على الساعات دي.<br>
-        • بعد ما الـ 6 أيام يخلصوا، بيجيلك تقرير فيه مستوى التزامك، وعلى أساسه بيتحدد دخولك حسب <strong>نسبة التقدّم العامة في التقييم</strong>..<br>
-        
+        التقييم معمول على خطة مدتها <strong>6 أيام</strong>.<br><br>
+        خلال الفترة دي:<br>
+        • كل يوم هتكتب الساعات اللي اشتغلت فيها على نفسك.<br>
+        • في آخر اليوم، هتدي لنفسك تقييم بسيط.<br>
+        • وبعد ما الـ 6 أيام يخلصوا، هيوصلك تقرير يوضح قد إيه كنت ملتزم، وعلى الأساس ده بيتحدد موقفك.<br>
     </p>
 
-    <p dir="rtl" style="text-align:right;">ده ملف التقييم الخاص بيك لمدة 6 أيام:</p>  
+    <p dir="rtl" style="text-align:right;">ده ملف التقييم بتاعك:</p>  
     <div style="text-align:right;">
         <a class="button" href="{file_link}">{file_name}</a>  
     </div>
 
-    <p dir="rtl" style="text-align:right;">وده فيديو بيشرح ازاي تستخدم ملف التقييم:</p>
+    <p dir="rtl" style="text-align:right;">شرح المهمات وطريقة استخدام الملف هتلاقيه في قسم المهمات:</p>
     <div style="text-align:right;">
-        <a class="button" href="{sheet_video}">مشاهدة الفيديو</a> 
+        <a class="button" href="{tasks_link}">الذهاب لقسم المهمات</a> 
     </div>
 
-    <p dir="rtl" style="text-align:right;">للتواصل للاستفسار أو طلب الدعم :</p>
+    <p dir="rtl" style="text-align:right;">وكمان تقدر تنضم للمجموعة الرئيسية للمشروع، ولو محتاج مساعدة أو عندك أي سؤال، إسأل على طول:</p>
     <div style="text-align:right;">
-        <a class="button" href="{support_asking_link}">تواصل الآن</a> 
+        <a class="button" href="{support_asking_link}">انضم دلوقتي</a> 
     </div>
 
-    <p dir="rtl" style="text-align:right;">شكرًا لك على التزامك معنا 🌱</p>
+    <p dir="rtl" style="text-align:right;">خلينا نشوف شغلك ونكمل الرحلة سوا 🚀</p>
 
     <div class="footer">
       <p>© 2025 نواة – رحلتك للتطور تبدأ من هنا</p>
@@ -101,6 +99,7 @@ EMAIL_HTML_BODY = """
 </body>
 </html>
 """
+
 PASS_HTML_BODY = """
 <html>
 <head>
